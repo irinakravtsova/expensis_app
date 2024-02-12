@@ -1,0 +1,123 @@
+//создай переменные- строковые константы
+// let LIMIT = 100;
+const CURRENCY = 'руб.';
+const STATUS_IN_LIMIT = 'всё хорошо';
+const STATUS_OUT_OF_LIMIT = 'всё плохо';
+const STATUS_OUT_OF_LIMIT_CLASSNAME = 'status__negative';
+const STATUS_IN_LIMIT_CLASSNAME = 'status';
+const POPUP_OPENED_CLASSNAME = 'popup_open';
+
+//создай переменные - ссылки на html
+const moneyInputNode = document.querySelector(".js-moneyInput__input");
+const categorySelectNode = document.querySelector('.js-categorySelectNode')
+const addButtonNode = document.querySelector(".js-addButton");
+const buttonResetNode = document.querySelector('.js-button_reset');
+const sumNode = document.querySelector('.js-sum');
+const statusNode = document.querySelector('.js-status');
+const historyNode = document.querySelector('.js-history');
+const limitNode = document.querySelector('.js-limit');
+const btnLimitOpenNode = document.querySelector('.js-btn_limit');
+
+const popupNode = document.querySelector('.js-popup');
+
+const btnCloseNode = document.querySelector('.js-popup__close-btn');
+const btnPopupNode = document.querySelector('.js-popup__button')
+const popupContentNode = document.querySelector('.js-popup__content')
+const popupInputNode = document.querySelector('.js-popup__input')
+
+let LIMIT = 100;
+let expenses = [];
+
+btnLimitOpenNode.addEventListener('click', function() {
+  const limit = prompt("определи новый лимит");
+  limitNode.innerText = limit;  //задаем и отображаем лимит
+   LIMIT = limit;
+ });
+
+ //...Функции................
+
+ function calculateExpenses() {
+  let sum = 0;
+  expenses.forEach(function (expense) {
+    sum += expense.amount;
+  }); 
+  return sum; 
+  }; 
+
+  function renderStatus() {
+    const total = calculateExpenses(expenses);
+     sumNode.innerText = total;    
+     if (total <= LIMIT) {
+      statusNode.innerText = STATUS_IN_LIMIT;
+      statusNode.className = STATUS_IN_LIMIT_CLASSNAME;
+      } else {
+    statusNode.innerHTML = `${STATUS_OUT_OF_LIMIT} (${LIMIT - total} ${CURRENCY})`;
+    statusNode.className = STATUS_OUT_OF_LIMIT_CLASSNAME
+  }
+   }
+
+  function renderHistory() {
+    historyNode.innerHTML = "";
+    expenses.forEach(function(expense) {
+      const historyItem = document.createElement("li");
+      historyItem.innerText = `${expense.amount} ${CURRENCY} - ${expense.category}`;
+  
+      historyNode.appendChild(historyItem);
+    }); 
+  }
+
+  function render() {
+    renderStatus();
+    renderHistory();  
+ }
+ 
+ function getexpenseFromUser() {
+  return parseInt(moneyInputNode.value);
+ }
+
+ function getSelectCategory() {
+   return categorySelectNode.value;
+ }
+
+//  const clearInput = function (input) {
+//   input.value = '';
+
+//  }
+ function clearInput() {
+  moneyInputNode.value = '';
+ categorySelectNode.value = 'Категория';
+  }
+
+ function addButtonHandler() {
+  const currentAmount = getexpenseFromUser();
+  if (!currentAmount) {
+    return;
+  }
+  
+  const currentCategory = getSelectCategory();
+ if (currentCategory === "Категория") {
+  return;
+ }
+ const newExpense = { amount: currentAmount, category: currentCategory};
+ expenses.push(newExpense);
+ render();
+ clearInput();
+
+ }
+
+ function buttonResetHandler() {
+  expenses = [];
+  render();
+  statusNode
+ }
+  
+addButtonNode.addEventListener('click', addButtonHandler) 
+buttonResetNode.addEventListener('click', buttonResetHandler)
+
+
+
+
+
+
+
+

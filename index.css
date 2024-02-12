@@ -1,0 +1,151 @@
+body {
+  font-family: 'Inter', sans-serif;
+  font-size: 32px;
+  line-height: 39px;
+  font-weight: 400;
+}
+h1, .title, .label {
+  font-weight: 700;
+  
+}
+.text {
+ font-weight: 400;
+}
+.add-button {
+  height: 58px;
+  padding: 10px 110px 9px 109px;
+  background-color: rgb(16, 116, 77);
+  color: white;
+}
+button:hover {
+  opacity: 0.7;
+}
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding-top: 71px;
+}
+.expenses__inner {
+  margin-top: 37px;
+  width: 100%;
+display: flex;
+flex-direction: row;
+flex-wrap: wrap;
+column-gap: 28px;
+row-gap: 51px;
+}
+.expenses__input {
+width: 484px;
+}
+.categorySelect {
+  margin-top: 18px;
+  width: 484px;
+  height: 58px;
+  padding-left: 22px;
+  border: 1px solid black;
+}
+.expenses__sum {
+  width: 484px;
+}
+.expenses__history {
+  width: 370px;
+}
+
+.moneyInput {
+  width: 100%;
+  display: flex;
+  padding: 10px 17px 9px 22px;
+  border: 2px solid black;
+}
+.rub:after {
+  content: " руб.";
+}
+.moneyInput__input {
+  width: 100%;
+}
+.expenses__limit {
+  margin-bottom: 13px;
+  display: flex;
+
+}
+.expenses__total {
+  margin-bottom: 35px;
+  display: flex;
+}
+.button-reset {
+  padding: 10px 82px 10px 82px;
+  background-color: red;
+  color: white;
+}
+
+ol {
+ list-style-position: inside;
+}
+/* .status {
+  color: green;
+} */
+.status,
+.status__positive  {
+  color: green;
+  font-weight: 400;
+}
+.status__negative {
+color: red;
+font-weight: 400;
+}
+
+.popup {
+  position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.5s ease;
+ 
+}
+.popup__open {
+  opacity: 1;
+  visibility: visible;
+}
+.popup__content {
+  position: relative;
+  width: 777px;
+  max-height: 100%;
+  padding: 94px 74px 86px 55px;
+  overflow-y: auto;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.popup__close-btn {
+  position: absolute;
+  top: 32px;
+  right: 34px;
+  width: 50px;
+  height: 50px;
+  padding-block: 0px;
+  padding-inline: 0px;
+  border: none;
+  background-size: cover;
+  background-image: url(кнопка_закрыть.png);
+  cursor: pointer
+}
+.popup__input {
+  margin-top: 50px;
+  margin-bottom: 30px;
+  padding: 10px 17px 9px 22px;
+
+border: 2px solid black;
+}
+
+.popup__button {
+  
+  padding: 10px 77px 9px 77px;
+  color: white;
+  background-color: rgb(16, 116, 77);
+}
