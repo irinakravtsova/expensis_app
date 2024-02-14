@@ -57,6 +57,14 @@ width: 484px;
   padding: 10px 17px 9px 22px;
   border: 2px solid black;
 }
+.moneyInput__input:focus,
+.categorySelect:focus {
+  background-color: #e0e8ed;
+}
+.negative {
+ background: rgb(234, 138, 138);
+
+}
 .rub:after {
   content: " руб.";
 }
@@ -101,7 +109,7 @@ font-weight: 400;
     width: 100%;
     height: 100%;
     display: flex;
-    justify-content: center;
+   justify-content: center;
     align-items: center;
     background-color: rgba(0, 0, 0, 0.4);
     opacity: 0;
@@ -114,15 +122,14 @@ font-weight: 400;
   visibility: visible;
 }
 .popup__content {
-  position: relative;
-  width: 777px;
+   width: 533px;
   max-height: 100%;
-  padding: 94px 74px 86px 55px;
-  overflow-y: auto;
+  padding: 25px;
+
   background-color: #fff;
   border-radius: 10px;
 }
-.popup__close-btn {
+/* .popup__close-btn {
   position: absolute;
   top: 32px;
   right: 34px;
@@ -134,7 +141,7 @@ font-weight: 400;
   background-size: cover;
   background-image: url(кнопка_закрыть.png);
   cursor: pointer
-}
+} */
 .popup__input {
   margin-top: 50px;
   margin-bottom: 30px;
@@ -144,7 +151,6 @@ border: 2px solid black;
 }
 
 .popup__button {
-  
   padding: 10px 77px 9px 77px;
   color: white;
   background-color: rgb(16, 116, 77);
