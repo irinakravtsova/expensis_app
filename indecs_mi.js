@@ -113,6 +113,15 @@ function saveExpensesToStorage() {//сохраняем объект в хран�
     localStorage.setItem(STORAGE_LABEL_EXPENSES, expensesString);
   }
 
+  function togglePopup() {
+    popupNode.classList.toggle(POPUP_OPENED_CLASSNAME);
+   
+   }
+   function getLimitFromPopup() {
+    return popupInputNode.value;
+  
+  }
+
   //......Функции обработчики...........
 
 function addButtonHandler() {
@@ -130,8 +139,6 @@ function addButtonHandler() {
   render();
   clearInput();
  }
-
-
 
 function buttonResetHandler() {
   expenses = [];
@@ -152,36 +159,33 @@ function changeLimitHandler() {
   render();
 }
 
-function togglePopup() {
-  popupNode.classList.toggle(POPUP_OPENED_CLASSNAME);
- 
- }
+
+  
 
 function newLimitHandler() {
-popupNode.classList.toggle(POPUP_OPENED_CLASSNAME);
-  const limit = popupInputNode.value;
+  const limit = getLimitFromPopup();
+  if (!limit) {
+    return;
+  }
   console.log(limit);
   limitNode.innerText = limit;  //задаем и отображаем лимит
   LIMIT = limit;
+// popupNode.classList.toggle(POPUP_OPENED_CLASSNAME);
+
   
 }
-  
+
 addButtonNode.addEventListener('click', addButtonHandler); 
 buttonResetNode.addEventListener('click', buttonResetHandler);
 
-btnLimitOpenNode.addEventListener('click', function() {
-  popupNode.classList.toggle(POPUP_OPENED_CLASSNAME);
-});
+btnLimitOpenNode.addEventListener('click', togglePopup);
 
 
 
 
 
-btnSetLimitNode.addEventListener('click', function() {
- 
 
-})
-// btnOpenNode.addEventListener('click', togglePopup);
+btnSetLimitNode.addEventListener('click', newLimitHandler );
 // btnCloseNode.addEventListener('click', togglePopup);
 
 // popupNode.addEventListener('click', (event) => {
