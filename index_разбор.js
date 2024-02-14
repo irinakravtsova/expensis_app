@@ -1,11 +1,14 @@
 //создай переменные- строковые константы
-// let LIMIT = 100;
+
 const CURRENCY = 'руб.';
 const STATUS_IN_LIMIT = 'всё хорошо';
 const STATUS_OUT_OF_LIMIT = 'всё плохо';
 const STATUS_OUT_OF_LIMIT_CLASSNAME = 'status__negative';
 const STATUS_IN_LIMIT_CLASSNAME = 'status';
-const POPUP_OPENED_CLASSNAME = 'popup_open';
+const CHANGE_LIMIT_TEXT = "определи новый лимит" //параметр, который передаем в модалку promt
+const STORAGE_LABEL_LIMIT = "limit";
+const STORAGE_LABEL_EXPENSES = "expenses";
+// const POPUP_OPENED_CLASSNAME = 'popup_open';
 
 //создай переменные - ссылки на html
 const moneyInputNode = document.querySelector(".js-moneyInput__input");
@@ -18,25 +21,42 @@ const historyNode = document.querySelector('.js-history');
 const limitNode = document.querySelector('.js-limit');
 const btnLimitOpenNode = document.querySelector('.js-btn_limit');
 
-const popupNode = document.querySelector('.js-popup');
+// const popupNode = document.querySelector('.js-popup');
 
-const btnCloseNode = document.querySelector('.js-popup__close-btn');
-const btnPopupNode = document.querySelector('.js-popup__button')
-const popupContentNode = document.querySelector('.js-popup__content')
-const popupInputNode = document.querySelector('.js-popup__input')
+// const btnCloseNode = document.querySelector('.js-popup__close-btn');
+// const btnPopupNode = document.querySelector('.js-popup__button')
+// const popupContentNode = document.querySelector('.js-popup__content')
+// const popupInputNode = document.querySelector('.js-popup__input')
 
-let LIMIT = 100;
+let LIMIT = parseInt(limitNode.innerText);
+
+function initLimit() { //вызываем лимит из хранилища
+  const limitFromLStorage = parseInt(localStorage.getItem(STORAGE_LABEL_LIMIT));
+  if (!limitFromLStorage) {
+    return;
+  }
+  limitNode.innerText = limitFromLStorage;
+  LIMIT = parseInt(limitNode.innerText);
+}
+initLimit();
+//получи строку из хранилища
+const expensesFromStorageString = localStorage.getItem(STORAGE_LABEL_EXPENSES);
+//распарси (преврати строку в объект)
+const expensesFromStorage = JSON.parse(expensesFromStorageString);
+
 let expenses = [];
+//проверь, что объект является массивом
+if (Array.isArray(expensesFromStorage)) {
+  expenses = expensesFromStorage;
+}
 
-btnLimitOpenNode.addEventListener('click', function() {
-  const limit = prompt("определи новый лимит");
-  limitNode.innerText = limit;  //задаем и отображаем лимит
-   LIMIT = limit;
- });
+render();
 
  //...Функции................
 
- function calculateExpenses() {
+
+
+function calculateExpenses() {
   let sum = 0;
   expenses.forEach(function (expense) {
     sum += expense.amount;
@@ -44,7 +64,7 @@ btnLimitOpenNode.addEventListener('click', function() {
   return sum; 
   }; 
 
-  function renderStatus() {
+function renderStatus() {
     const total = calculateExpenses(expenses);
      sumNode.innerText = total;    
      if (total <= LIMIT) {
@@ -56,7 +76,7 @@ btnLimitOpenNode.addEventListener('click', function() {
   }
    }
 
-  function renderHistory() {
+function renderHistory() {
     historyNode.innerHTML = "";
     expenses.forEach(function(expense) {
       const historyItem = document.createElement("li");
@@ -66,16 +86,16 @@ btnLimitOpenNode.addEventListener('click', function() {
     }); 
   }
 
-  function render() {
+function render() {
     renderStatus();
     renderHistory();  
  }
  
- function getexpenseFromUser() {
+function getexpenseFromUser() {
   return parseInt(moneyInputNode.value);
  }
 
- function getSelectCategory() {
+function getSelectCategory() {
    return categorySelectNode.value;
  }
 
@@ -83,36 +103,59 @@ btnLimitOpenNode.addEventListener('click', function() {
 //   input.value = '';
 
 //  }
- function clearInput() {
+function clearInput() {
   moneyInputNode.value = '';
- categorySelectNode.value = 'Категория';
+  categorySelectNode.value = 'Категория';
   }
 
- function addButtonHandler() {
+function saveExpensesToStorage() {//сохраняем объект в хранилище
+    const expensesString = JSON.stringify(expenses); 
+    localStorage.setItem(STORAGE_LABEL_EXPENSES, expensesString);
+  }
+
+  //......Функции обработчики...........
+
+function addButtonHandler() {
   const currentAmount = getexpenseFromUser();
   if (!currentAmount) {
     return;
   }
-  
   const currentCategory = getSelectCategory();
- if (currentCategory === "Категория") {
+  if (currentCategory === "Категория") {
   return;
+   }
+  const newExpense = { amount: currentAmount, category: currentCategory};
+  expenses.push(newExpense);
+  saveExpensesToStorage();
+  render();
+  clearInput();
  }
- const newExpense = { amount: currentAmount, category: currentCategory};
- expenses.push(newExpense);
- render();
- clearInput();
 
- }
 
- function buttonResetHandler() {
+
+function buttonResetHandler() {
   expenses = [];
   render();
-  statusNode
- }
+  }
+
+function changeLimitHandler() {
+ 
+  const limitValue = prompt(CHANGE_LIMIT_TEXT);
+  const limit = parseInt(limitValue);
+  if (!limit) {
+    return;
+  }
+  limitNode.innerText = limit;  //задаем и отображаем лимит
+  LIMIT = limit;
+
+  localStorage.setItem(STORAGE_LABEL_LIMIT, limit) //записываем в хранилище ключ, значение
+  render();
+}
   
-addButtonNode.addEventListener('click', addButtonHandler) 
-buttonResetNode.addEventListener('click', buttonResetHandler)
+addButtonNode.addEventListener('click', addButtonHandler); 
+buttonResetNode.addEventListener('click', buttonResetHandler);
+btnLimitOpenNode.addEventListener('click', changeLimitHandler);
+  
 
 
 
